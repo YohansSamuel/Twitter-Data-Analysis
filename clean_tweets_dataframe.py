@@ -3,10 +3,12 @@ class Clean_Tweets:
     """
     The PEP8 Standard AMAZING!!!
     """
+    #
     def __init__(self, df:pd.DataFrame):
         self.df = df
         print('Automation in Action...!!!')
-        
+    
+    #
     def drop_unwanted_column(self, df:pd.DataFrame)->pd.DataFrame:
         """
         remove rows that has column names. This error originated from
@@ -27,19 +29,17 @@ class Clean_Tweets:
         df = self.df.drop_duplicates(subset ='original_text')
         
         return df
-        
+
     # 
     def convert_to_datetime(self, df:pd.DataFrame)->pd.DataFrame:
         """
         convert column to datetime
         """
-        ----
+        self.df['created_at'] = pd.to_datetime(self.df['created_at'], errors='coerce')
         
-        ----
+        self.df = self.df[self.df['created_at'] >= '2020-12-31' ]
         
-        df = df[df['created_at'] >= '2020-12-31' ]
-        
-        return df
+        return self.df
     
     def convert_to_numbers(self, df:pd.DataFrame)->pd.DataFrame:
         """
