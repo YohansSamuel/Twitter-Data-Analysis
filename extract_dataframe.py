@@ -83,7 +83,9 @@ class TweetDfExtractor:
 
     # 
     def find_friends_count(self)->list:
-        friends_count = 
+        friends_count = [x['user']['friends_count'] for x in self.tweets_list]
+        
+        return friends_count
 
     # 
     def is_sensitive(self)->list:
