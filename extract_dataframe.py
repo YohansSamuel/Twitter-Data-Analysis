@@ -59,23 +59,29 @@ class TweetDfExtractor:
 
     # 
     def find_created_time(self)->list:
+        created_at = [x['created_at'] for x in self.tweets_list]
        
         return created_at
-
+    
+    # 
     def find_source(self)->list:
         source = 
 
         return source
 
+    # 
     def find_screen_name(self)->list:
         screen_name = 
-
+    
+    # 
     def find_followers_count(self)->list:
         followers_count = 
 
+    # 
     def find_friends_count(self)->list:
         friends_count = 
 
+    # 
     def is_sensitive(self)->list:
         try:
             is_sensitive = [x['possibly_sensitive'] for x in self.tweets_list]
@@ -84,19 +90,24 @@ class TweetDfExtractor:
 
         return is_sensitive
 
+    # 
     def find_favourite_count(self)->list:
-        
-    
+
+
+    # 
     def find_retweet_count(self)->list:
         retweet_count = 
 
+    
+    # 
     def find_hashtags(self)->list:
         hashtags =
 
+    # 
     def find_mentions(self)->list:
         mentions = 
 
-
+    # 
     def find_location(self)->list:
         try:
             location = self.tweets_list['user']['location']
@@ -104,10 +115,8 @@ class TweetDfExtractor:
             location = ''
         
         return location
-
     
-        
-        
+    #    
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""
         
