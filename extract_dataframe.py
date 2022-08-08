@@ -40,14 +40,13 @@ class TweetDfExtractor:
         
         return statuses_count
     
-    # 
+    # this function will find and return full text of a tweet from a dataframe
     def find_full_text(self)->list:
         texts = []
-        for t in self.tweets_list:
-            if 'retweeted_status' in t and 'extended_tweet' in t['retweeted_status']:
-                texts.append(t['retweeted_status']['extended_tweet']['full_text'])
-            else:
-                texts.append(t['text'])
+        for tweet in self.tweets_list:
+            if 'retweeted_status' in tweet.keys() and 'extended_tweet' in tweet['retweeted_status'].keys():
+                texts.append(tweet['retweeted_status']['extended_tweet']['full_text'])
+            else: texts.append('Empty')
         return texts
        
     # 
@@ -168,7 +167,7 @@ class TweetDfExtractor:
         df = pd.DataFrame(data=data, columns=columns)
 
         if save:
-            df.to_csv('processed_tweet_data.csv', index=False)
+            df.to_csv('data/processed_tweet_data.csv', index=False)
             print('File Successfully Saved.!!!')
         
         return df
