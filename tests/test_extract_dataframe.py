@@ -55,8 +55,10 @@ class TestTweetDfExtractor(unittest.TestCase):
          self.assertEqual(self.df.find_statuses_count(), [204051, 3462, 6727, 45477, 277957])
 
     def test_find_full_text(self):
-        text = <provide a list of the first five full texts>
-
+        text = ['RT @nikitheblogger: Irre: Annalena Baerbock sagt, es bricht ihr das Herz, dass man nicht bedingungslos schwere Waffen liefert.\nMir bricht e\u2026', 
+                'RT @sagt_mit: Merkel schaffte es in 1 Jahr 1 Million "Flüchtlinge" durchzufüttern, jedoch nicht nach 16 Jahren 1 Million Rentner aus der Ar…',\
+                'RT @Kryptonoun: @WRi007 Pharma in Lebensmitteln, Trinkwasser, in der Luft oder in der Zahnpasta irgendwo muss ein Beruhigungsmittel bzw. Be…',\
+ 	            'RT @WRi007: Die #Deutschen sind ein braves Volk!. Mit #Spritpreisen von 2 Euro abgefunden. Mit #inflation abgefunden. Mit höheren #Abgaben…']
         self.assertEqual(self.df.find_full_text(), text)
 
     def test_find_sentiments(self):
