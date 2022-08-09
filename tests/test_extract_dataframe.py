@@ -56,40 +56,41 @@ class TestTweetDfExtractor(unittest.TestCase):
         # tweet_df = self.df.get_tweet_df()
 
     def test_find_statuses_count(self):
-         self.assertEqual(self.df.find_statuses_count(), [204051, 3462, 6727, 45477, 277957])
+         self.assertEqual(self.df.find_statuses_count(), [8097, 5831, 1627, 1627, 18958])
 
     def test_find_full_text(self):
-        text = [ "RT @i_ameztoy Extra random image I Lets focus in one very specific zone of the western coast gt Longjing District Taichung #City #Ta",
-                  "RT @IndoPac_Info #Chinas media explains the military reasons for each area of the drills in the #Taiwan Strait Read the labels in the pi",
-                  "China even cut off communication they dont anwer phonecalls from the US But here clown @ZelenskyyUa enters the stage to ask #XiJinping to change Putins mind",
-                  "Putin to #XiJinping I told you my friend Taiwan will be a vassal state including nukes much like the Ukrainian model I warned you But it took Pelosi to open Chinas eyes",
-                  "RT @ChinaUncensored I’m sorry I thought Taiwan was an independent country because it had its own government currency military travel d"
+        text = [ "RT @i_ameztoy: Extra random image (I):",
+                  "RT @IndoPac_Info: #China's media explains the military reasons for each area of the drills in the #Taiwan Strait",
+                  "China even cut off communication, they don't anwer phonecalls from the US. But here clown @ZelenskyyUa enters the stage to ask #XiJinping to change Putin's mind.",
+                  "Putin to #XiJinping : I told you my friend, Taiwan will be a vassal state, including nukes, much like the Ukrainian model. I warned you... But it took Pelosi to open China's eyes.",
+                  "RT @ChinaUncensored: Iâ€™m sorry, I thought Taiwan was an independent country because it had its own government, currency, military, travel dâ€¦"
+                  
                ]
         self.assertEqual(self.df.find_full_text(), text)
 
     def test_find_sentiments(self):
-        self.assertEqual(self.df.find_sentiments(self.df.find_full_text()), ([0.16666666666666666, 0.13333333333333333, 0.3166666666666667, 0.08611111111111111, 0.27999999999999997], [0.18888888888888888, 0.45555555555555555, 0.48333333333333334, 0.19722222222222224, 0.6199999999999999]))
+        self.assertEqual(self.df.find_sentiments(self.df.find_full_text()), ([-0.125, -0.1, 0.0, 0.1, 0.2]))
 
     def test_find_screen_name(self):
-        name = ['ketuesriche', 'Grid1949', 'LeeTomlinson8', 'RIPNY08', 'pash22']
+        name = ['i_ameztoy', 'ZIisq', 'Fin21Free', 'Fin21Free', 'VizziniDolores']
         self.assertEqual(self.df.find_screen_name(), name)
 
     def test_find_followers_count(self):
-        f_count = [551, 66, 1195, 2666, 28250]
+        f_count = [20497, 65, 85, 85, 910]
         self.assertEqual(self.df.find_followers_count(), f_count)
 
     def test_find_friends_count(self):
-        friends_count = [351, 92, 1176, 2704, 30819]
+        friends_count = [2621, 272, 392, 392, 2608]
         self.assertEqual(self.df.find_friends_count(), friends_count)
 
     def test_find_is_sensitive(self):
         self.assertEqual(self.df.is_sensitive(), [None, None, None, None, None])
 
     def test_find_retweet_count(self):
-        self.assertEqual(self.df.find_retweet_count(), [612, 92, 1, 899, 20])
+        self.assertEqual(self.df.find_retweet_count(), [2, 201, 0, 0, 381])
 
     def test_find_location(self):
-        self.assertEqual(self.df.find_location(), ['Mass', 'Edinburgh, Scotland', None, None, 'United Kingdom'])
+        self.assertEqual(self.df.find_location(), ['', '', 'Netherlands', 'Netherlands', 'Ayent, Schweiz'])
 
     # def test_find_hashtags(self):
     #     self.assertEqual(self.df.find_hashtags(), )
