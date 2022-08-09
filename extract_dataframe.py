@@ -47,14 +47,6 @@ class TweetDfExtractor:
     
     # this function will find and return full text of a tweet from a dataframe
     def find_full_text(self)->list:  
-        # full_text = []
-        # for tweet in self.tweets_list:
-        #     try:
-        #         full_text.append(
-        #             tweet['retweeted_status']['text'])
-        #     except KeyError:
-        #         full_text.append("")
-        # return full_text
         try:
          text = [x['full_text'] for x in self.tweets_list]
         except KeyError:
@@ -158,10 +150,8 @@ class TweetDfExtractor:
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""
         
-        columns = ['created_at', 'source', 'full_text', 'sentiment', 'polarity',
-                   'subjectivity', 'lang', 'favorite_count', 'retweet_count',
-                   'original_author', 'followers_count', 'friends_count', 
-                   'possibly_sensitive','hashtags', 'user_mentions', 'place']
+        columns = ['created_at', 'source', 'original_text', 'subjectivity', 'polarity', 'lang', 'favorite_count', 'retweet_count',
+                   'original_author', 'followers_count', 'friends_count','possibly_sensitive','hashtags', 'user_mentions', 'place']
     
         created_at = self.find_created_time()
         source = self.find_source()
@@ -173,13 +163,14 @@ class TweetDfExtractor:
         fav_count = self.find_favourite_count()
         retweet_count = self.find_retweet_count()
         screen_name = self.find_screen_name()
-        follower_count = self.find_followers_count()
+        followers_count = self.find_followers_count()
         friends_count = self.find_friends_count()
         sensitivity = self.is_sensitive()
         hashtags = self.find_hashtags()
         mentions = self.find_mentions()
         location = self.find_location()
-        data = zip(created_at, source, full_text, subjectivity, polarity, lang, fav_count, retweet_count, screen_name,follower_count, friends_count, sensitivity, hashtags, mentions, location)
+        data = zip(created_at, source, full_text, subjectivity, polarity, lang, fav_count, retweet_count, 
+                   screen_name,followers_count, friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
 
         if save:
