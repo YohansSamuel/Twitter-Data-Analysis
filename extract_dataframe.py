@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 from textblob import TextBlob
-
+import zipfile
 
 def read_json(json_file: str)->list:
     """
@@ -15,11 +15,16 @@ def read_json(json_file: str)->list:
     length of the json file and a list of json
     """
     
+    # tweets_data = []
+    # for tweets in open(json_file,'r'):
+    #     tweets_data.append(json.loads(tweets))
+    
+    
+    # return len(tweets_data), tweets_data
     tweets_data = []
     for tweets in open(json_file,'r'):
         tweets_data.append(json.loads(tweets))
-    
-    
+
     return len(tweets_data), tweets_data
 
 class TweetDfExtractor:
@@ -41,16 +46,20 @@ class TweetDfExtractor:
         return statuses_count
     
     # this function will find and return full text of a tweet from a dataframe
-    def find_full_text(self)->list:
-        texts = []
-        for tweet in self.tweets_list:
-            if 'retweeted_status' in tweet and 'extended_tweet' in tweet['retweeted_status']:
-                texts.append(tweet['retweeted_status']['extended_tweet']['full_text'])
-            else:
-                texts.append(tweet['text'])
-        
-        
-        return texts
+    def find_full_text(self)->list:  
+        # full_text = []
+        # for tweet in self.tweets_list:
+        #     try:
+        #         full_text.append(
+        #             tweet['retweeted_status']['text'])
+        #     except KeyError:
+        #         full_text.append("")
+        # return full_text
+        try:
+         text = [x['full_text'] for x in self.tweets_list]
+        except KeyError:
+            text = None
+        return text
        
     # 
     def find_sentiments(self, text)->list:
@@ -149,14 +158,18 @@ class TweetDfExtractor:
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""
         
-        columns = ['created_at', 'source', 'original_text','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
-            'original_author', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place']
-        
+        columns = ['created_at', 'source', 'full_text', 'sentiment', 'polarity',
+                   'subjectivity', 'lang', 'favorite_count', 'retweet_count',
+                   'original_author', 'followers_count', 'friends_count', 
+                   'possibly_sensitive','hashtags', 'user_mentions', 'place']
+    
         created_at = self.find_created_time()
         source = self.find_source()
-        text = self.find_full_text()
-        polarity, subjectivity = self.find_sentiments(text)
+        #original_text = self.find_original_text()
+        full_text = self.find_full_text()
+        polarity, subjectivity = self.find_sentiments(full_text)
         lang = self.find_lang()
+        #status_count = self.find_statuses_count()
         fav_count = self.find_favourite_count()
         retweet_count = self.find_retweet_count()
         screen_name = self.find_screen_name()
@@ -166,7 +179,7 @@ class TweetDfExtractor:
         hashtags = self.find_hashtags()
         mentions = self.find_mentions()
         location = self.find_location()
-        data = zip(created_at, source, text, polarity, subjectivity, lang, fav_count, retweet_count, screen_name, follower_count, friends_count, sensitivity, hashtags, mentions, location)
+        data = zip(created_at, source, full_text, subjectivity, polarity, lang, fav_count, retweet_count, screen_name,follower_count, friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
 
         if save:
