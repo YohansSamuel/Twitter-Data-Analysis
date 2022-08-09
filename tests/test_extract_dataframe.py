@@ -2,6 +2,7 @@ import unittest
 import pandas as pd
 import sys
 import os
+import json
 
 sys.path.append(os.path.abspath(os.path.join("../..")))
 sys.path.append(".")
@@ -58,10 +59,12 @@ class TestTweetDfExtractor(unittest.TestCase):
          self.assertEqual(self.df.find_statuses_count(), [204051, 3462, 6727, 45477, 277957])
 
     def test_find_full_text(self):
-        text = ['RT @nikitheblogger: Irre: Annalena Baerbock sagt, es bricht ihr das Herz, dass man nicht bedingungslos schwere Waffen liefert.\nMir bricht e\u2026', 
-                'RT @sagt_mit: Merkel schaffte es in 1 Jahr 1 Million "Flüchtlinge" durchzufüttern, jedoch nicht nach 16 Jahren 1 Million Rentner aus der Ar…',\
-                'RT @Kryptonoun: @WRi007 Pharma in Lebensmitteln, Trinkwasser, in der Luft oder in der Zahnpasta irgendwo muss ein Beruhigungsmittel bzw. Be…',\
- 	            'RT @WRi007: Die #Deutschen sind ein braves Volk!. Mit #Spritpreisen von 2 Euro abgefunden. Mit #inflation abgefunden. Mit höheren #Abgaben…']
+        text = [ "RT @i_ameztoy Extra random image I Lets focus in one very specific zone of the western coast gt Longjing District Taichung #City #Ta",
+                  "RT @IndoPac_Info #Chinas media explains the military reasons for each area of the drills in the #Taiwan Strait Read the labels in the pi",
+                  "China even cut off communication they dont anwer phonecalls from the US But here clown @ZelenskyyUa enters the stage to ask #XiJinping to change Putins mind",
+                  "Putin to #XiJinping I told you my friend Taiwan will be a vassal state including nukes much like the Ukrainian model I warned you But it took Pelosi to open Chinas eyes",
+                  "RT @ChinaUncensored I’m sorry I thought Taiwan was an independent country because it had its own government currency military travel d"
+               ]
         self.assertEqual(self.df.find_full_text(), text)
 
     def test_find_sentiments(self):
