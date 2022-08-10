@@ -67,7 +67,7 @@ class TweetDfExtractor:
 
         return source
 
-    # 
+    # finds author name
     def find_screen_name(self)->list:
         screen_name = [x['user']['screen_name'] for x in self.tweets_list]
         
