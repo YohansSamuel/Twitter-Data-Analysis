@@ -15,18 +15,8 @@ st.set_page_config(
 st.title("Twitter Data Analysis")
 # st.sidebar.success("Select a page above.")
 def main_page():
-    st.markdown("# Main page 🎈")
-    st.sidebar.markdown("# Main page 🎈")
-    # wordCloud()
-
-def page2():
-    st.markdown("# Page 2 ❄️")
-    st.sidebar.markdown("# Page 2 ❄️")
-    # stBarChart()
-
-def page3():
-    st.markdown("# Page 3 🎉")
-    st.sidebar.markdown("# Page 3 🎉")
+    st.markdown("Twitter Data Analysis")
+    st.sidebar.markdown("Topic Modeling")
 
 def loadData():
     query = "select * from TweetInformation"
