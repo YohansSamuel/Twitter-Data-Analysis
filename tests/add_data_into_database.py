@@ -40,3 +40,34 @@ def createDB(dbName: str) -> None:
     cur.execute(f"CREATE DATABASE IF NOT EXISTS {dbName};")
     conn.commit()
     cur.close()
+
+def createTables(dbName: str) -> None:
+    """
+    Parameters
+    ----------
+    dbName :
+        str:
+    dbName :
+        str:
+    dbName:str :
+    Returns
+    -------
+    """
+    conn, cur = DBConnect(dbName)
+    sqlFile = 'database_schema.sql'
+    fd = open(sqlFile, 'r')
+    readSqlFile = fd.read()
+    fd.close()
+
+    sqlCommands = readSqlFile.split(';')
+
+    for command in sqlCommands:
+        try:
+            res = cur.execute(command)
+        except Exception as ex:
+            print("Command skipped: ", command)
+            print(ex)
+    conn.commit()
+    cur.close()
+
+    return
