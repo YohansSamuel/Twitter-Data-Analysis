@@ -32,3 +32,14 @@ class TestCleanTweetsDataFrame(unittest.TestCase):
         self.extracted = TweetDfExtractor(tweet_list[:5])
         self.df = self.extracted.get_tweet_df()
         self.clean_df = Clean_Tweets(self.df)
+
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    unittest.main()
