@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `TweetInformation`
     `hashtags` TEXT DEFAULT NULL,
     `user_mentions` TEXT DEFAULT NULL,
     `place` TEXT DEFAULT NULL,
+    `sentiment` TEXT DEFAULT NULL,
     PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
