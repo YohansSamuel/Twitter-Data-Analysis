@@ -57,7 +57,7 @@ def createTables(dbName: str) -> None:
     -------
     """
     conn, cur = DBConnect(dbName)
-    sqlFile = 'database_schema.sql'
+    sqlFile = 'tweetinformation_database_schema.sql'
     fd = open(sqlFile, 'r')
     readSqlFile = fd.read()
     fd.close()
@@ -192,6 +192,6 @@ if __name__ == "__main__":
     emojiDB(dbName='tweets')
     createTables(dbName='tweets')
 
-    df = pd.read_csv('Preprocessed_tweet_data.csv')
+    df = pd.read_csv('cleaned_tweet_data.csv')
 
     insert_to_tweet_table(dbName='tweets', df=df, table_name='TweetInformation')
