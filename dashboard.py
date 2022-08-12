@@ -6,7 +6,7 @@ from wordcloud import WordCloud
 import plotly.express as px
 from add_tweet_data_into_database import db_execute_fetch
 
-st.set_page_config(page_title="Day 5", layout="wide")
+st.set_page_config(page_title="Twitter Data Analysis", layout="wide")
 
 def loadData():
     query = "select * from TweetInformation"
@@ -22,7 +22,7 @@ def selectHashTag():
 
 def selectLocAndAuth():
     df = loadData()
-    location = st.multiselect("choose Location of tweets", list(df['place_coordinate'].unique()))
+    location = st.multiselect("choose Location of tweets", list(df['place'].unique()))
     lang = st.multiselect("choose Language of tweets", list(df['language'].unique()))
 
     if location and not lang:
@@ -59,8 +59,8 @@ def wordCloud():
 
 def stBarChart():
     df = loadData()
-    dfCount = pd.DataFrame({'Tweet_count': df.groupby(['original_author'])['clean_text'].count()}).reset_index()
-    dfCount["original_author"] = dfCount["original_author"].astype(str)
+    dfCount = pd.DataFrame({'Tweet_count': df.groupby(['hashtags'])['clean_text'].count()}).reset_index()
+    dfCount["hashtags"] = dfCount["hashtags"].astype(str)
     dfCount = dfCount.sort_values("Tweet_count", ascending=False)
 
     num = st.slider("Select number of Rankings", 0, 50, 5)
