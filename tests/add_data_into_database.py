@@ -187,3 +187,11 @@ def db_execute_fetch(*args, many=False, tablename='', rdf=True, **kwargs) -> pd.
     else:
         return res
 
+if __name__ == "__main__":
+    createDB(dbName='tweets')
+    emojiDB(dbName='tweets')
+    createTables(dbName='tweets')
+
+    df = pd.read_csv('Preprocessed_tweet_data.csv')
+
+    insert_to_tweet_table(dbName='tweets', df=df, table_name='TweetInformation')
