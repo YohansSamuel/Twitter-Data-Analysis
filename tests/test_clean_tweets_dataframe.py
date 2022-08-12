@@ -9,6 +9,7 @@ sys.path.append(".")
 
 from extract_dataframe import read_json
 from extract_dataframe import TweetDfExtractor
+from clean_tweets_dataframe import Clean_Tweets
 
 # For unit testing the data reading and processing codes, 
 # we will need about 5 tweet samples. 
@@ -26,3 +27,8 @@ class TestCleanTweetsDataFrame(unittest.TestCase):
 			unittest.TestCase this allows the new class to inherit
 			from the unittest module
 	"""
+
+    def setUp(self) -> pd.DataFrame:
+        self.extracted = TweetDfExtractor(tweet_list[:5])
+        self.df = self.extracted.get_tweet_df()
+        self.clean_df = Clean_Tweets(self.df)
