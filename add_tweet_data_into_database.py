@@ -3,18 +3,8 @@ import pandas as pd
 import mysql.connector as mysql
 from mysql.connector import Error
 
-# make a database connection
 def DBConnect(dbName=None):
-    """
-    Parameters
-    ----------
-    dbName :
-        Default value = None)
-    Returns
-    -------
-    #os.getenv('mysqlPass')
-    """
-    conn = mysql.connect(host='localhost', user='root', password=os.getenv('mysqlPass'),
+    conn = mysql.connect(host='localhost', user='root', password='12345678',
                          database=dbName, buffered=True)
     cur = conn.cursor()
     return conn, cur
@@ -25,39 +15,15 @@ def emojiDB(dbName: str) -> None:
     cur.execute(dbQuery)
     conn.commit()
 
-# create database
 def createDB(dbName: str) -> None:
-    """
-    Parameters
-    ----------
-    dbName :
-        str:
-    dbName :
-        str:
-    dbName:str :
-    Returns
-    -------
-    """
     conn, cur = DBConnect()
-    cur.execute(f"CREATE DATABASE IF NOT EXISTS {dbName};")
+    cur.execute(f"CREATE DATABASE IF NOT EXISTS {dbName};") # creating database
     conn.commit()
     cur.close()
 
-# create tables
 def createTables(dbName: str) -> None:
-    """
-    Parameters
-    ----------
-    dbName :
-        str:
-    dbName :
-        str:
-    dbName:str :
-    Returns
-    -------
-    """
     conn, cur = DBConnect(dbName)
-    sqlFile = 'tweetinformation_database_schema.sql'
+    sqlFile = 'tweetsinformation_database_schema.sql'
     fd = open(sqlFile, 'r')
     readSqlFile = fd.read()
     fd.close()
@@ -75,92 +41,43 @@ def createTables(dbName: str) -> None:
 
     return
 
-# preprocess the dataframe
 def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
-        """
-        Parameters
-        ----------
-        df :
-            pd.DataFrame:
-        df :
-            pd.DataFrame:
-        df:pd.DataFrame :
-        Returns
-        -------
-        """
-        cols_2_drop = ['Unnamed: 0', 'possibly_sensitive', 'original_text']
-        try:
-            df = df.drop(columns=cols_2_drop, axis=1)
-            df = df.fillna(0)
-        except KeyError as e:
-            print("Error:", e)
+    cols_2_drop = ['original_text']
+    try:
+        df = df.drop(columns=cols_2_drop, axis=1)
+        df = df.fillna(0)
+    except KeyError as e:
+        print("Error:", e)
 
-        return df
+    return df
 
- #
+
 def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> None:
-    """
-    Parameters
-    ----------
-    dbName :
-        str:
-    df :
-        pd.DataFrame:
-    table_name :
-        str:
-    dbName :
-        str:
-    df :
-        pd.DataFrame:
-    table_name :
-        str:
-    dbName:str :
-    df:pd.DataFrame :
-    table_name:str :
-    Returns
-    -------
-    """
     conn, cur = DBConnect(dbName)
 
     df = preprocess_df(df)
 
     for _, row in df.iterrows():
-        sqlQuery = f"""INSERT INTO {table_name} (created_at, 
-        source, clean_text, polarity, subjectivity, language,
-        favorite_count, retweet_count, original_author, 
-        followers_count, friends_count,
-        hashtags, user_mentions, place)
-             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
-        data = (row[0], row[1], row[13], row[2], (row[3]), row[4],(row[5]), row[6], 
-                row[7], row[8], row[9], row[10], row[11],row[12])
+        sqlQuery = f"""INSERT INTO TweetInformation (created_at, source, subjectivity, polarity, language,
+                    favorite_count, retweet_count, followers_count, friends_count,
+                    hashtags, user_mentions, place, clean_text)
+             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+        data = (row[0], row[1], row[2], row[3], (row[4]), (row[5]), row[6], row[7], row[8], row[9], row[10], row[11],
+                row[12])
 
         try:
             # Execute the SQL command
             cur.execute(sqlQuery, data)
             # Commit your changes in the database
             conn.commit()
-            print("Data Inserted Successfully")
+            #print("Data Inserted Successfully")
         except Exception as e:
             conn.rollback()
             print("Error: ", e)
     return
 
-# execute the fetch
 def db_execute_fetch(*args, many=False, tablename='', rdf=True, **kwargs) -> pd.DataFrame:
-    """
-    Parameters
-    ----------
-    *args :
-    many :
-         (Default value = False)
-    tablename :
-         (Default value = '')
-    rdf :
-         (Default value = True)
-    **kwargs :
-    Returns
-    -------
-    """
+
     connection, cursor1 = DBConnect(**kwargs)
     if many:
         cursor1.executemany(*args)
@@ -176,7 +93,7 @@ def db_execute_fetch(*args, many=False, tablename='', rdf=True, **kwargs) -> pd.
     # get row count and show info
     nrow = cursor1.rowcount
     if tablename:
-        print(f"{nrow} records fetched from {tablename} table")
+        print(f"{nrow} recrods fetched from {tablename} table")
 
     cursor1.close()
     connection.close()
@@ -186,12 +103,12 @@ def db_execute_fetch(*args, many=False, tablename='', rdf=True, **kwargs) -> pd.
         return pd.DataFrame(res, columns=field_names)
     else:
         return res
-
 if __name__ == "__main__":
-    createDB(dbName='tweets')
+    print("sucessfully")
+    dbName='tweets'
+    createDB(dbName)
     emojiDB(dbName='tweets')
-    createTables(dbName='tweets')
-
-    df = pd.read_csv('cleaned_tweet_data.csv')
-
+    createTables(dbName)
+    df = pd.read_csv('data/cleaned_data_final.csv')
     insert_to_tweet_table(dbName='tweets', df=df, table_name='TweetInformation')
+    print("sucessfully")
