@@ -3,6 +3,7 @@ import pandas as pd
 import mysql.connector as mysql
 from mysql.connector import Error
 
+# make a database connection
 def DBConnect(dbName=None):
     """
     Parameters
@@ -24,6 +25,7 @@ def emojiDB(dbName: str) -> None:
     cur.execute(dbQuery)
     conn.commit()
 
+# create database
 def createDB(dbName: str) -> None:
     """
     Parameters
@@ -41,6 +43,7 @@ def createDB(dbName: str) -> None:
     conn.commit()
     cur.close()
 
+# create tables
 def createTables(dbName: str) -> None:
     """
     Parameters
@@ -71,3 +74,25 @@ def createTables(dbName: str) -> None:
     cur.close()
 
     return
+
+    # preprocess the dataframe
+    def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Parameters
+        ----------
+        df :
+            pd.DataFrame:
+        df :
+            pd.DataFrame:
+        df:pd.DataFrame :
+        Returns
+        -------
+        """
+        cols_2_drop = ['Unnamed: 0', 'possibly_sensitive', 'original_text']
+        try:
+            df = df.drop(columns=cols_2_drop, axis=1)
+            df = df.fillna(0)
+        except KeyError as e:
+            print("Error:", e)
+
+        return df
