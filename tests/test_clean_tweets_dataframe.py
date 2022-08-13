@@ -40,6 +40,12 @@ class TestCleanTweetsDataFrame(unittest.TestCase):
         returned_source = self.df["source"].apply(self.clean_df.extract_twitter_source)
         self.assertEqual([x for x in returned_source], vals)
 
+    #
+    def test_remove_non_english_tweets(self):
+        self.assertEqual(len(self.clean_df.remove_non_english_tweets(self.df)), len(self.df))
+    #
+
+    #
 
 
 
