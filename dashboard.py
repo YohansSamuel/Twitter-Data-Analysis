@@ -86,7 +86,7 @@ def langPie():
         st.write(dfLangCount)
 
 
-st.title("Twitter Data Analysis Display")
+st.title("Twitter Data Analysis")
 selectHashTag()
 st.markdown("<p style='padding:10px; background-color:#000000;color:#00ECB9;font-size:16px;border-radius:10px;'>Section Break</p>", unsafe_allow_html=True)
 selectLocAndAuth()
