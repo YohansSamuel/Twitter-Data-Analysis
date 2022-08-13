@@ -66,6 +66,9 @@ class TestCleanTweetsDataFrame(unittest.TestCase):
         df = self.clean_df.drop_duplicate(self.df)
         self.assertEqual(len(df), 5)
     #
+    def test_drop_unwanted_column(self):
+        df = self.clean_df.drop_unwanted_column(self.df)
+        self.assertEqual(len(df.columns), 16)
 
 
 
