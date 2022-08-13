@@ -60,7 +60,11 @@ class TestCleanTweetsDataFrame(unittest.TestCase):
     def test_convert_to_datetime(self):
         df = self.clean_df.convert_to_datetime(self.df)
         self.assertEqual(df['created_at'].dtype, 'datetime64[ns, UTC]')
+    
     #
+    def test_drop_duplicate(self):
+        df = self.clean_df.drop_duplicate(self.df)
+        self.assertEqual(len(df), 5)
     #
 
 
