@@ -61,6 +61,10 @@ class Clean_Tweets:
         self.df = self.df.drop(self.df[self.df['lang'] != 'en'].index)
         
         return self.df
+
+    def extract_twitter_source(self, df:pd.DataFrame)->pd.DataFrame:
+        self.df["source"] = self.df["source"].str.replace(r"(\s*\<.*?\>\s*)", " ", regex=True).str.strip() 
+
 # 
 if __name__ == "__main__":
     cleaned_df = pd.read_csv("data/processed_tweet_data.csv")
