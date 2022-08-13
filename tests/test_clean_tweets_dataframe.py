@@ -57,6 +57,9 @@ class TestCleanTweetsDataFrame(unittest.TestCase):
             df['favorite_count'].dtype,df['followers_count'].dtype,]
         self.assertEqual(returned_types, vals)
     #
+    def test_convert_to_datetime(self):
+        df = self.clean_df.convert_to_datetime(self.df)
+        self.assertEqual(df['created_at'].dtype, 'datetime64[ns, UTC]')
     #
     #
 
