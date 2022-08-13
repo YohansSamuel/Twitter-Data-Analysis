@@ -32,10 +32,13 @@ class TestCleanTweetsDataFrame(unittest.TestCase):
         self.extracted = TweetDfExtractor(tweet_list[:5])
         self.df = self.extracted.get_tweet_df()
         self.clean_df = Clean_Tweets(self.df)
-
-
-
-
+    
+    #
+    def test_extract_twitter_source(self):
+        vals = ['Twitter for Android','Twitter for Android','Twitter for Android',
+        'Twitter for Android','Twitter for iPhone']
+        returned_source = self.df["source"].apply(self.clean_df.extract_twitter_source)
+        self.assertEqual([x for x in returned_source], vals)
 
 
 
