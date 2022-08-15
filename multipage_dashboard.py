@@ -115,8 +115,11 @@ page_names_to_funcs = {
     "Word Cloud": wordCloud,
     "St Bar Chart": stBarChart,
     "Pie Chart":langPie,
-    "Other Visualizations":additional_visualizations
+    "Other Visualizations":additional_visualizations,
 }
 # 
 selected_page = st.sidebar.selectbox("Select a page", page_names_to_funcs.keys())
 page_names_to_funcs[selected_page]()
+st.markdown("Developer Details")
+st.markdown("* Name : Yohans Samuel")
+st.markdown("* GitHub : https://github.com/YohansSamuel/")
